@@ -1,101 +1,157 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
+
+type Language = {
+  code: string;
+  label: string;
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [text, setText] = useState<string>("");
+  const [language, setLanguage] = useState<string>("en-US");
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+  const languages: Language[] = [
+    { code: "en-US", label: "English (US)" },
+    { code: "de-DE", label: "German" },
+    { code: "es-ES", label: "Spanish" },
+  ];
+
+  const exampleSentences: { [key: string]: string[] } = {
+    "en-US": [
+      "The quick brown fox jumps over the lazy dog.",
+      "She sells sea shells by the sea shore.",
+      "How much wood would a woodchuck chuck if a woodchuck could chuck wood?",
+      "The early bird catches the worm.",
+      "A picture is worth a thousand words.",
+      "Actions speak louder than words.",
+      "Better late than never.",
+      "Brevity is the soul of wit.",
+      "Curiosity killed the cat.",
+      "Don’t count your chickens before they hatch.",
+      "Every cloud has a silver lining.",
+      "Good things come to those who wait.",
+      "Ignorance is bliss.",
+      "It’s always darkest before the dawn.",
+      "Knowledge is power.",
+      "Laughter is the best medicine.",
+      "Look before you leap.",
+      "Time and tide wait for no man.",
+      "Two wrongs don’t make a right.",
+      "When in Rome, do as the Romans do.",
+    ],
+    "de-DE": [
+      "Der frühe Vogel fängt den Wurm.",
+      "Übung macht den Meister.",
+      "Viele Köche verderben den Brei.",
+      "Ein Bild sagt mehr als tausend Worte.",
+      "Aller Anfang ist schwer.",
+      "Besser spät als nie.",
+      "Die Katze lässt das Mausen nicht.",
+      "Stille Wasser sind tief.",
+      "Wer A sagt, muss auch B sagen.",
+      "Wo ein Wille ist, ist auch ein Weg.",
+      "Man soll den Tag nicht vor dem Abend loben.",
+      "Es ist noch kein Meister vom Himmel gefallen.",
+      "Hochmut kommt vor dem Fall.",
+      "Kleine Geschenke erhalten die Freundschaft.",
+      "Reden ist Silber, Schweigen ist Gold.",
+      "Wer nicht wagt, der nicht gewinnt.",
+      "Der Apfel fällt nicht weit vom Stamm.",
+      "Guter Rat ist teuer.",
+      "In der Not frisst der Teufel Fliegen.",
+      "Müßiggang ist aller Laster Anfang.",
+    ],
+    "es-ES": [
+      "Más vale tarde que nunca.",
+      "El que madruga, Dios lo ayuda.",
+      "A caballo regalado no le mires el diente.",
+      "Más vale prevenir que curar.",
+      "Ojos que no ven, corazón que no siente.",
+      "No hay mal que por bien no venga.",
+      "A buen entendedor pocas palabras bastan.",
+      "Del dicho al hecho hay mucho trecho.",
+      "En casa de herrero, cuchillo de palo.",
+      "Cuando el río suena, agua lleva.",
+      "El hábito no hace al monje.",
+      "Dime con quién andas y te diré quién eres.",
+      "Cría cuervos y te sacarán los ojos.",
+      "Más vale pájaro en mano que ciento volando.",
+      "No todo lo que brilla es oro.",
+      "Quien mucho abarca, poco aprieta.",
+      "A falta de pan, buenas son tortas.",
+      "La avaricia rompe el saco.",
+      "Zapatero a tus zapatos.",
+      "No hay peor ciego que el que no quiere ver.",
+    ],
+  };
+
+  const handleSpeak = (): void => {
+    if ("speechSynthesis" in window) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = language;
+      speechSynthesis.speak(utterance);
+    } else {
+      alert("Web Speech API is not supported in this browser.");
+    }
+  };
+
+  return (
+    <div className="p-5 font-sans bg-gray-100 min-h-screen text-black">
+      <h1 className="text-2xl font-bold mb-5 ">
+        Text-to-Speech with Web Speech API
+      </h1>
+      <div className="mb-4">
+        <label htmlFor="language" className="font-medium mr-2">
+          Select Language:
+        </label>
+        <select
+          id="language"
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="border rounded p-2"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          {languages.map((lang) => (
+            <option key={lang.code} value={lang.code}>
+              {lang.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="examples" className="font-medium mr-2">
+          Select Example Sentence:
+        </label>
+        <select
+          id="examples"
+          onChange={(e) => setText(e.target.value)}
+          className="border rounded p-2 w-full"
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <option value="">-- Select a sentence --</option>
+          {exampleSentences[language]?.map((sentence, index) => (
+            <option key={index} value={sentence}>
+              {sentence}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="mb-4">
+        <label htmlFor="text" className="font-medium mr-2">
+          Enter Text:
+        </label>
+        <input
+          id="text"
+          type="text"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          className="border rounded p-2 w-full"
+        />
+      </div>
+      <button
+        onClick={handleSpeak}
+        className="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600"
+      >
+        Speak
+      </button>
     </div>
   );
 }
